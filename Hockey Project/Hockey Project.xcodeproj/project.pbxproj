@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D12FFA441FB608C900C8B887 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D12FFA431FB608C900C8B887 /* Default-568h@2x.png */; };
 		D1C220021FB4CD21006BDA53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C220011FB4CD21006BDA53 /* AppDelegate.swift */; };
 		D1C220041FB4CD21006BDA53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C220031FB4CD21006BDA53 /* ViewController.swift */; };
 		D1C220071FB4CD21006BDA53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C220051FB4CD21006BDA53 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 		D1C2203D1FB4CD22006BDA53 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C2203C1FB4CD22006BDA53 /* ExtensionDelegate.swift */; };
 		D1C2203F1FB4CD22006BDA53 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C2203E1FB4CD22006BDA53 /* NotificationController.swift */; };
 		D1C220411FB4CD22006BDA53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1C220401FB4CD22006BDA53 /* Assets.xcassets */; };
+		D1E6F7CA1FBB58D900DC68FE /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E6F7C91FBB58D900DC68FE /* Team.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D12FFA431FB608C900C8B887 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D1C21FFE1FB4CD21006BDA53 /* Hockey Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hockey Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1C220011FB4CD21006BDA53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1C220031FB4CD21006BDA53 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 		D1C220401FB4CD22006BDA53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1C220421FB4CD22006BDA53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1C220431FB4CD22006BDA53 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		D1E6F7C61FB618B000DC68FE /* libcoretls.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcoretls.tbd; path = usr/lib/libcoretls.tbd; sourceTree = SDKROOT; };
+		D1E6F7C91FBB58D900DC68FE /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,12 +147,14 @@
 		D1C21FF51FB4CD21006BDA53 = {
 			isa = PBXGroup;
 			children = (
+				D12FFA431FB608C900C8B887 /* Default-568h@2x.png */,
 				D1C220001FB4CD21006BDA53 /* Hockey Project */,
 				D1C220151FB4CD21006BDA53 /* Hockey ProjectTests */,
 				D1C220201FB4CD21006BDA53 /* Hockey ProjectUITests */,
 				D1C2202A1FB4CD21006BDA53 /* Hockey Project WatchKit App */,
 				D1C220391FB4CD22006BDA53 /* Hockey Project WatchKit Extension */,
 				D1C21FFF1FB4CD21006BDA53 /* Products */,
+				D1E6F7C51FB618B000DC68FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -172,6 +179,7 @@
 				D1C220081FB4CD21006BDA53 /* Assets.xcassets */,
 				D1C2200A1FB4CD21006BDA53 /* LaunchScreen.storyboard */,
 				D1C2200D1FB4CD21006BDA53 /* Info.plist */,
+				D1E6F7C91FBB58D900DC68FE /* Team.swift */,
 			);
 			path = "Hockey Project";
 			sourceTree = "<group>";
@@ -215,6 +223,14 @@
 				D1C220431FB4CD22006BDA53 /* PushNotificationPayload.apns */,
 			);
 			path = "Hockey Project WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		D1E6F7C51FB618B000DC68FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D1E6F7C61FB618B000DC68FE /* libcoretls.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1C2200C1FB4CD21006BDA53 /* LaunchScreen.storyboard in Resources */,
+				D12FFA441FB608C900C8B887 /* Default-568h@2x.png in Resources */,
 				D1C220091FB4CD21006BDA53 /* Assets.xcassets in Resources */,
 				D1C220071FB4CD21006BDA53 /* Main.storyboard in Resources */,
 			);
@@ -413,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1E6F7CA1FBB58D900DC68FE /* Team.swift in Sources */,
 				D1C220041FB4CD21006BDA53 /* ViewController.swift in Sources */,
 				D1C220021FB4CD21006BDA53 /* AppDelegate.swift in Sources */,
 			);
@@ -681,6 +699,7 @@
 		D1C2204F1FB4CD22006BDA53 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W42QTPY2QK;
@@ -696,6 +715,7 @@
 		D1C220501FB4CD22006BDA53 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = W42QTPY2QK;
