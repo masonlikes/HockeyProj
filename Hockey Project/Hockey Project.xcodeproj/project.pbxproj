@@ -23,7 +23,9 @@
 		D1C2203D1FB4CD22006BDA53 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C2203C1FB4CD22006BDA53 /* ExtensionDelegate.swift */; };
 		D1C2203F1FB4CD22006BDA53 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C2203E1FB4CD22006BDA53 /* NotificationController.swift */; };
 		D1C220411FB4CD22006BDA53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1C220401FB4CD22006BDA53 /* Assets.xcassets */; };
-		D1E6F7CA1FBB58D900DC68FE /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E6F7C91FBB58D900DC68FE /* Team.swift */; };
+		D1E6F7D01FBBFFA100DC68FE /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E6F7CF1FBBFFA100DC68FE /* Team.swift */; };
+		D1E6F7D21FBC013300DC68FE /* TeamTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E6F7D11FBC013300DC68FE /* TeamTableViewCell.swift */; };
+		D1E6F7D41FBC01C900DC68FE /* TeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E6F7D31FBC01C900DC68FE /* TeamTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,7 +111,9 @@
 		D1C220421FB4CD22006BDA53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1C220431FB4CD22006BDA53 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		D1E6F7C61FB618B000DC68FE /* libcoretls.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcoretls.tbd; path = usr/lib/libcoretls.tbd; sourceTree = SDKROOT; };
-		D1E6F7C91FBB58D900DC68FE /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		D1E6F7CF1FBBFFA100DC68FE /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		D1E6F7D11FBC013300DC68FE /* TeamTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTableViewCell.swift; sourceTree = "<group>"; };
+		D1E6F7D31FBC01C900DC68FE /* TeamTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +183,9 @@
 				D1C220081FB4CD21006BDA53 /* Assets.xcassets */,
 				D1C2200A1FB4CD21006BDA53 /* LaunchScreen.storyboard */,
 				D1C2200D1FB4CD21006BDA53 /* Info.plist */,
-				D1E6F7C91FBB58D900DC68FE /* Team.swift */,
+				D1E6F7CF1FBBFFA100DC68FE /* Team.swift */,
+				D1E6F7D11FBC013300DC68FE /* TeamTableViewCell.swift */,
+				D1E6F7D31FBC01C900DC68FE /* TeamTableViewController.swift */,
 			);
 			path = "Hockey Project";
 			sourceTree = "<group>";
@@ -430,7 +436,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1E6F7CA1FBB58D900DC68FE /* Team.swift in Sources */,
+				D1E6F7D21FBC013300DC68FE /* TeamTableViewCell.swift in Sources */,
+				D1E6F7D41FBC01C900DC68FE /* TeamTableViewController.swift in Sources */,
+				D1E6F7D01FBBFFA100DC68FE /* Team.swift in Sources */,
 				D1C220041FB4CD21006BDA53 /* ViewController.swift in Sources */,
 				D1C220021FB4CD21006BDA53 /* AppDelegate.swift in Sources */,
 			);
