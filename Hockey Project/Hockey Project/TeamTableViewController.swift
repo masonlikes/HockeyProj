@@ -32,24 +32,30 @@ class TeamTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return teams.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        // Table view cells are reused and should be dequeued using a cell identifier.
+        let cellIdentifier = "TeamTableViewCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! TeamTableViewCell
+        
+        // Fetches the appropriate meal for the data source layout.
+        let team = teams[indexPath.row]
 
-        // Configure the cell...
+        cell.teamName.text = team.teamName
+        cell.teamLogo.image = team.teamLogo
+        cell.followSwitch.isOn = team.followed
 
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.
@@ -131,7 +137,7 @@ class TeamTableViewController: UITableViewController {
          let capitals = Team(teamName: "Washington Capitals", teamLogo: UIImage(named: "CAPITALS"), followed: false)
          let jets = Team(teamName: "Winnipeg Jets", teamLogo: UIImage(named: "JETS"), followed: false)
         
-        teams += [ducks,coyotes,bruins,sabres,flames,hurricanes,blackhawks,avalanche,blue_jackets,stars,red_wings,oilers,panthers,kings,wild,canadiens,predators,islanders,rangers,senators,flyers,penguins,blues,lightning,maple_leafs,canucks,golden_knights,capitals,jets]
+        teams += [ducks,coyotes,bruins,sabres,flames,hurricanes,blackhawks,avalanche,blue_jackets,stars,red_wings,oilers,panthers,kings,wild,canadiens,predators,devils,islanders,rangers,senators,flyers,penguins,sharks,blues,lightning,maple_leafs,canucks,golden_knights,capitals,jets]
     }
 
 }

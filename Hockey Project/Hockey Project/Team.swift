@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Team {
+class Team:NSObject {
     
     //MARK: Properties
     
