@@ -8,6 +8,8 @@
 import UIKit
 
 class TeamTableViewCell: UITableViewCell {
+    //MARK: Properties
+    
     @IBOutlet weak var teamName: UILabel!
     @IBOutlet weak var teamLogo: UIImageView!
     @IBOutlet weak var followSwitch: UISwitch!
@@ -22,5 +24,4 @@ class TeamTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

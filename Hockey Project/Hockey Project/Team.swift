@@ -13,13 +13,15 @@ class Team:NSObject {
     
     var teamName: String
     var teamLogo: UIImage?
+    var teamId: Int
     var followed: Bool
     
     //MARK: Initialization
     
-    init(teamName: String, teamLogo: UIImage?, followed: Bool) {
+    init(teamName: String, teamLogo: UIImage?, teamId: Int, followed: Bool) {
         self.teamName = teamName
         self.teamLogo = teamLogo
+        self.teamId = teamId
         self.followed = followed
     }
 }

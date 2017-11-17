@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TeamViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let URL_HEROES = "https://statsapi.web.nhl.com/api/v1/teams";
     
@@ -15,12 +15,10 @@ class ViewController: UIViewController {
     //A string array to save all the names
     var nameArray = [String]()
 
-    
-    @IBOutlet weak var myTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        getJsonFromUrl();
+        //getJsonFromUrl();
     }
 
     override func didReceiveMemoryWarning() {

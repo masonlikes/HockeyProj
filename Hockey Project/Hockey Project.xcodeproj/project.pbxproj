@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D12FFA441FB608C900C8B887 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D12FFA431FB608C900C8B887 /* Default-568h@2x.png */; };
 		D1C220021FB4CD21006BDA53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C220011FB4CD21006BDA53 /* AppDelegate.swift */; };
-		D1C220041FB4CD21006BDA53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C220031FB4CD21006BDA53 /* ViewController.swift */; };
+		D1C220041FB4CD21006BDA53 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C220031FB4CD21006BDA53 /* TeamViewController.swift */; };
 		D1C220071FB4CD21006BDA53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C220051FB4CD21006BDA53 /* Main.storyboard */; };
 		D1C220091FB4CD21006BDA53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1C220081FB4CD21006BDA53 /* Assets.xcassets */; };
 		D1C2200C1FB4CD21006BDA53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1C2200A1FB4CD21006BDA53 /* LaunchScreen.storyboard */; };
@@ -88,7 +88,7 @@
 		D12FFA431FB608C900C8B887 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D1C21FFE1FB4CD21006BDA53 /* Hockey Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hockey Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1C220011FB4CD21006BDA53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D1C220031FB4CD21006BDA53 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D1C220031FB4CD21006BDA53 /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		D1C220061FB4CD21006BDA53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D1C220081FB4CD21006BDA53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1C2200B1FB4CD21006BDA53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				D1C220011FB4CD21006BDA53 /* AppDelegate.swift */,
-				D1C220031FB4CD21006BDA53 /* ViewController.swift */,
+				D1C220031FB4CD21006BDA53 /* TeamViewController.swift */,
 				D1C220051FB4CD21006BDA53 /* Main.storyboard */,
 				D1C220081FB4CD21006BDA53 /* Assets.xcassets */,
 				D1C2200A1FB4CD21006BDA53 /* LaunchScreen.storyboard */,
@@ -439,7 +439,7 @@
 				D1E6F7D21FBC013300DC68FE /* TeamTableViewCell.swift in Sources */,
 				D1E6F7D41FBC01C900DC68FE /* TeamTableViewController.swift in Sources */,
 				D1E6F7D01FBBFFA100DC68FE /* Team.swift in Sources */,
-				D1C220041FB4CD21006BDA53 /* ViewController.swift in Sources */,
+				D1C220041FB4CD21006BDA53 /* TeamViewController.swift in Sources */,
 				D1C220021FB4CD21006BDA53 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
