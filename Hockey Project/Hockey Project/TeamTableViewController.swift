@@ -59,6 +59,18 @@ class TeamTableViewController: UITableViewController {
         
         return cell
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowTeamDetails" {
+            
+            let detailViewController = segue.destination
+                as! TeamViewController
+            
+            let myIndexPath = self.tableView.indexPathForSelectedRow!
+            let row = myIndexPath.row
+            detailViewController.team = teams[row]
+        }
+    }
  
 
     /*

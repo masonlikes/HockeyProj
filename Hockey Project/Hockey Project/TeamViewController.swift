@@ -7,18 +7,30 @@
 
 import UIKit
 
-class TeamViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class TeamViewController: UIViewController {
     
     let URL_HEROES = "https://statsapi.web.nhl.com/api/v1/teams";
     
+    @IBOutlet weak var teamName: UILabel!
+    @IBOutlet weak var teamLogo: UIImageView!
+    @IBOutlet weak var followed: UILabel!
     
     //A string array to save all the names
     var nameArray = [String]()
+    
+    var team: Team = Team(teamName: "", teamLogo: UIImage(named:"KINGS"), teamId: 0, followed: false);
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //getJsonFromUrl();
+        print(team.teamName)
+        self.teamName.text = team.teamName
+        self.teamLogo.image = team.teamLogo
+        if(team.followed){
+            self.followed.text = "Followed"
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
