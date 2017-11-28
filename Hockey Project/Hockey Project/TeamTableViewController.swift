@@ -18,7 +18,7 @@ class TeamTableViewController: UITableViewController {
         
         loadTeams()
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        //self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -134,7 +134,7 @@ class TeamTableViewController: UITableViewController {
         let red_wings = Team(teamName: "Detroit Red Wings", teamLogo: UIImage(named: "RED_WINGS"), teamId: 17, followed: false)
         let oilers = Team(teamName: "Edmonton Oilers", teamLogo: UIImage(named: "OILERS"), teamId: 22, followed: false)
         let panthers = Team(teamName: "Florida Panthers", teamLogo: UIImage(named: "PANTHERS"), teamId: 13, followed: false)
-        let kings = Team(teamName: "Los Angeles Kings", teamLogo: UIImage(named: "KINGS"), teamId: 26, followed: true)
+        let kings = Team(teamName: "Los Angeles Kings", teamLogo: UIImage(named: "KINGS"), teamId: 26, followed: false)
         let wild = Team(teamName: "Minnesota Wild", teamLogo: UIImage(named: "WILD"), teamId: 30, followed: false)
         let canadiens = Team(teamName: "Montreal Canadiens", teamLogo: UIImage(named: "CANADIENS"), teamId: 8, followed: false)
         let predators = Team(teamName: "Nashville Predators", teamLogo: UIImage(named: "PREDATORS"), teamId: 18, followed: false)
