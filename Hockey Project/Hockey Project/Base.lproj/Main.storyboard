@@ -42,6 +42,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
                                                 <action selector="followSwitched:" destination="7RR-ov-gHs" eventType="valueChanged" id="6bZ-0T-7oD"/>
+                                                <action selector="followTeam:" destination="T5f-sI-LMK" eventType="valueChanged" id="GVs-dW-jaf"/>
                                             </connections>
                                         </switch>
                                     </subviews>

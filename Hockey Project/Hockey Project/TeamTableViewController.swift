@@ -11,7 +11,7 @@ class TeamTableViewController: UITableViewController {
     
     //MARK: Properties
     
-    var teams = [Team]()
+    public var teams = [Team]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
