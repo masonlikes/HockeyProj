@@ -12,16 +12,12 @@ class TeamTableViewCell: UITableViewCell {
     
     @IBOutlet weak var teamName: UILabel!
     @IBOutlet weak var teamLogo: UIImageView!
-    @IBOutlet weak var followSwitch: UISwitch!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
-    @IBAction func followTeam(_ sender: Any) {
-        print(teamName.text ?? "")
-    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

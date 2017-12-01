@@ -55,7 +55,6 @@ class TeamTableViewController: UITableViewController {
         
         cell.teamName.text = team.teamName
         cell.teamLogo.image = team.teamLogo
-        cell.followSwitch.isOn = team.followed
         
         return cell
     }
@@ -121,37 +120,37 @@ class TeamTableViewController: UITableViewController {
     //MARK: Private Methods
     
     private func loadTeams() {
-        let ducks = Team(teamName: "Anaheim Ducks", teamLogo: UIImage(named: "DUCKS"), teamId: 24, followed: false)
-        let coyotes = Team(teamName: "Arizona Coyotes", teamLogo: UIImage(named: "COYOTES"), teamId: 53, followed: false)
-        let bruins = Team(teamName: "Boston Bruins", teamLogo: UIImage(named: "BRUINS"), teamId: 6, followed: false)
-        let sabres = Team(teamName: "Buffalo Sabres", teamLogo: UIImage(named: "SABRES"), teamId: 7, followed: false)
-        let flames = Team(teamName: "Calgary Flames", teamLogo: UIImage(named: "FLAMES"), teamId: 20, followed: false)
-        let hurricanes = Team(teamName: "Carolina Hurricanes", teamLogo: UIImage(named: "HURRICANES"), teamId: 12, followed: false)
-        let blackhawks = Team(teamName: "Chicago Blackhawks", teamLogo: UIImage(named: "BLACKHAWKS"), teamId: 16, followed: false)
-        let avalanche = Team(teamName: "Colorado Avalanche", teamLogo: UIImage(named: "AVALANCHE"), teamId: 21, followed: false)
-        let blue_jackets = Team(teamName: "Columbus Blue Jackets", teamLogo: UIImage(named: "BLUE_JACKETS"), teamId: 29, followed: false)
-        let stars = Team(teamName: "Dallas Stars", teamLogo: UIImage(named: "STARS"), teamId: 25, followed: false)
-        let red_wings = Team(teamName: "Detroit Red Wings", teamLogo: UIImage(named: "RED_WINGS"), teamId: 17, followed: false)
-        let oilers = Team(teamName: "Edmonton Oilers", teamLogo: UIImage(named: "OILERS"), teamId: 22, followed: false)
-        let panthers = Team(teamName: "Florida Panthers", teamLogo: UIImage(named: "PANTHERS"), teamId: 13, followed: false)
-        let kings = Team(teamName: "Los Angeles Kings", teamLogo: UIImage(named: "KINGS"), teamId: 26, followed: false)
-        let wild = Team(teamName: "Minnesota Wild", teamLogo: UIImage(named: "WILD"), teamId: 30, followed: false)
-        let canadiens = Team(teamName: "Montreal Canadiens", teamLogo: UIImage(named: "CANADIENS"), teamId: 8, followed: false)
-        let predators = Team(teamName: "Nashville Predators", teamLogo: UIImage(named: "PREDATORS"), teamId: 18, followed: false)
-        let devils = Team(teamName: "New Jersey Devils", teamLogo: UIImage(named: "DEVILS"), teamId: 1, followed: false)
-        let islanders = Team(teamName: "New York Islanders", teamLogo: UIImage(named: "ISLANDERS"), teamId: 2, followed: false)
-        let rangers = Team(teamName: "New York Rangers", teamLogo: UIImage(named: "RANGERS"), teamId: 3, followed: false)
-        let senators = Team(teamName: "Ottawa Senators", teamLogo: UIImage(named: "SENATORS"), teamId: 9, followed: false)
-        let flyers = Team(teamName: "Philadelphia Flyers", teamLogo: UIImage(named: "FLYERS"), teamId: 4, followed: false)
-        let penguins = Team(teamName: "Pittsburg Penguins", teamLogo: UIImage(named: "PENGUINS"), teamId: 5, followed: false)
-        let sharks = Team(teamName: "San Jose Sharks", teamLogo: UIImage(named: "SHARKS"), teamId: 28, followed: false)
-        let blues = Team(teamName: "St. Louis Blues", teamLogo: UIImage(named: "BLUES"), teamId: 19, followed: false)
-        let lightning = Team(teamName: "Tampa Bay Lightning", teamLogo: UIImage(named: "LIGHTNING"), teamId: 14, followed: false)
-        let maple_leafs = Team(teamName: "Toronto Maple Leafs", teamLogo: UIImage(named: "MAPLE_LEAFS"), teamId: 10, followed: false)
-        let canucks = Team(teamName: "Vancouver Canucks", teamLogo: UIImage(named: "CANUCKS"), teamId: 23, followed: false)
-        let golden_knights = Team(teamName: "Vegas Golden Knights", teamLogo: UIImage(named: "GOLDEN_KNIGHTS"), teamId: 54, followed: false)
-        let capitals = Team(teamName: "Washington Capitals", teamLogo: UIImage(named: "CAPITALS"), teamId: 15, followed: false)
-        let jets = Team(teamName: "Winnipeg Jets", teamLogo: UIImage(named: "JETS"), teamId: 52, followed: false)
+        let ducks = Team(teamName: "Anaheim Ducks", teamLogo: UIImage(named: "DUCKS"), teamId: 24)
+        let coyotes = Team(teamName: "Arizona Coyotes", teamLogo: UIImage(named: "COYOTES"), teamId: 53)
+        let bruins = Team(teamName: "Boston Bruins", teamLogo: UIImage(named: "BRUINS"), teamId: 6)
+        let sabres = Team(teamName: "Buffalo Sabres", teamLogo: UIImage(named: "SABRES"), teamId: 7)
+        let flames = Team(teamName: "Calgary Flames", teamLogo: UIImage(named: "FLAMES"), teamId: 20)
+        let hurricanes = Team(teamName: "Carolina Hurricanes", teamLogo: UIImage(named: "HURRICANES"), teamId: 12)
+        let blackhawks = Team(teamName: "Chicago Blackhawks", teamLogo: UIImage(named: "BLACKHAWKS"), teamId: 16)
+        let avalanche = Team(teamName: "Colorado Avalanche", teamLogo: UIImage(named: "AVALANCHE"), teamId: 21)
+        let blue_jackets = Team(teamName: "Columbus Blue Jackets", teamLogo: UIImage(named: "BLUE_JACKETS"), teamId: 29)
+        let stars = Team(teamName: "Dallas Stars", teamLogo: UIImage(named: "STARS"), teamId: 25)
+        let red_wings = Team(teamName: "Detroit Red Wings", teamLogo: UIImage(named: "RED_WINGS"), teamId: 17)
+        let oilers = Team(teamName: "Edmonton Oilers", teamLogo: UIImage(named: "OILERS"), teamId: 22)
+        let panthers = Team(teamName: "Florida Panthers", teamLogo: UIImage(named: "PANTHERS"), teamId: 13)
+        let kings = Team(teamName: "Los Angeles Kings", teamLogo: UIImage(named: "KINGS"), teamId: 26)
+        let wild = Team(teamName: "Minnesota Wild", teamLogo: UIImage(named: "WILD"), teamId: 30)
+        let canadiens = Team(teamName: "Montreal Canadiens", teamLogo: UIImage(named: "CANADIENS"), teamId: 8)
+        let predators = Team(teamName: "Nashville Predators", teamLogo: UIImage(named: "PREDATORS"), teamId: 18)
+        let devils = Team(teamName: "New Jersey Devils", teamLogo: UIImage(named: "DEVILS"), teamId: 1)
+        let islanders = Team(teamName: "New York Islanders", teamLogo: UIImage(named: "ISLANDERS"), teamId: 2)
+        let rangers = Team(teamName: "New York Rangers", teamLogo: UIImage(named: "RANGERS"), teamId: 3)
+        let senators = Team(teamName: "Ottawa Senators", teamLogo: UIImage(named: "SENATORS"), teamId: 9)
+        let flyers = Team(teamName: "Philadelphia Flyers", teamLogo: UIImage(named: "FLYERS"), teamId: 4)
+        let penguins = Team(teamName: "Pittsburg Penguins", teamLogo: UIImage(named: "PENGUINS"), teamId: 5)
+        let sharks = Team(teamName: "San Jose Sharks", teamLogo: UIImage(named: "SHARKS"), teamId: 28)
+        let blues = Team(teamName: "St. Louis Blues", teamLogo: UIImage(named: "BLUES"), teamId: 19)
+        let lightning = Team(teamName: "Tampa Bay Lightning", teamLogo: UIImage(named: "LIGHTNING"), teamId: 14)
+        let maple_leafs = Team(teamName: "Toronto Maple Leafs", teamLogo: UIImage(named: "MAPLE_LEAFS"), teamId: 10)
+        let canucks = Team(teamName: "Vancouver Canucks", teamLogo: UIImage(named: "CANUCKS"), teamId: 23)
+        let golden_knights = Team(teamName: "Vegas Golden Knights", teamLogo: UIImage(named: "GOLDEN_KNIGHTS"), teamId: 54)
+        let capitals = Team(teamName: "Washington Capitals", teamLogo: UIImage(named: "CAPITALS"), teamId: 15)
+        let jets = Team(teamName: "Winnipeg Jets", teamLogo: UIImage(named: "JETS"), teamId: 52)
         
         teams += [ducks,coyotes,bruins,sabres,flames,hurricanes,blackhawks,avalanche,blue_jackets,stars,red_wings,oilers,panthers,kings,wild,canadiens,predators,devils,islanders,rangers,senators,flyers,penguins,sharks,blues,lightning,maple_leafs,canucks,golden_knights,capitals,jets]
     }
