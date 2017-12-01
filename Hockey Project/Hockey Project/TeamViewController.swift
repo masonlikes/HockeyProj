@@ -67,7 +67,7 @@ class TeamViewController: UIViewController {
         self.awaySOG.isHidden = true
         self.lastPlay.isHidden = true
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(getGameUrl), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(getGameUrl), userInfo: nil, repeats: true)
         
         getTeamData(teamUrl: urlString)
         getGameUrl()
@@ -191,110 +191,22 @@ class TeamViewController: UIViewController {
                         //PLAYERTYPE: PLAYER
                         if let currPlay = plays["currentPlay"] as? NSDictionary{
                     
-                        let about = currPlay["about"] as! NSDictionary
-                        let coordinates = currPlay["coordinates"] as! NSDictionary
-                        if(!coordinates.allKeys.isEmpty){
-                            let xCord = coordinates["x"] as! Int
-                            let yCord = coordinates["y"] as! Int
+                            let about = currPlay["about"] as! NSDictionary
+                            let coordinates = currPlay["coordinates"] as! NSDictionary
+                            if(!coordinates.allKeys.isEmpty){
+                                let xCord = coordinates["x"] as! Int
+                                let yCord = coordinates["y"] as! Int
                         
-                            print(xCord)
-                            print(yCord)
-                        }
-                        let result = currPlay["result"] as! NSDictionary
-                        let eventCode = result["eventCode"] as! String
-                        let event = result["event"] as! String
-                        let description = result["description"] as! String
-                        let periodOfPlay = about["ordinalNum"] as! String
-                        let timeOfPlay = about["periodTime"] as! String
-                        self.lastPlayStr += "\(eventCode) "
-                        self.lastPlayStr += "\(periodOfPlay)/\(timeOfPlay) "
-                        self.lastPlayStr += "\(event): \(description) "
-                        if let players = currPlay["players"] as? NSArray{
-                                //print(players)
-                                print(players.count)
-                                if(players.count == 4){
-                                    let player1 = players[0] as! NSDictionary
-                                    let player1Obj = player1["player"] as! NSDictionary
-                                    let player1Name = player1Obj["fullName"] as! String
-                                    let player1Type = player1["playerType"] as! String
-                            
-                                    let player2 = players[1] as! NSDictionary
-                                    let player2Obj = player2["player"] as! NSDictionary
-                                    let player2Name = player2Obj["fullName"] as! String
-                                    let player2Type = player2["playerType"] as! String
-                            
-                                    let player3 = players[2] as! NSDictionary
-                                    let player3Obj = player3["player"] as! NSDictionary
-                                    let player3Name = player3Obj["fullName"] as! String
-                                    let player3Type = player3["playerType"] as! String
-                            
-                                    let player4 = players[3] as! NSDictionary
-                                    let player4Obj = player4["player"] as! NSDictionary
-                                    let player4Name = player4Obj["fullName"] as! String
-                                    let player4Type = player4["playerType"] as! String
-                                    
-                                    print(player1Type + ": " + player1Name)
-                                    print(player2Type + ": " + player2Name)
-                                    print(player3Type + ": " + player3Name)
-                                    print(player4Type + ": " + player4Name)
-                            
-                                    self.lastPlayStr += "\(player1Type): \(player1Name) "
-                                    self.lastPlayStr += "\(player2Type): \(player2Name) "
-                                    self.lastPlayStr += "\(player3Type): \(player3Name) "
-                                    self.lastPlayStr += "\(player4Type): \(player4Name)"
-                                }else if(players.count == 3){
-                                    let player1 = players[0] as! NSDictionary
-                                    let player1Obj = player1["player"] as! NSDictionary
-                                    let player1Name = player1Obj["fullName"] as! String
-                                    let player1Type = player1["playerType"] as! String
-                            
-                                    let player2 = players[1] as! NSDictionary
-                                    let player2Obj = player2["player"] as! NSDictionary
-                                    let player2Name = player2Obj["fullName"] as! String
-                                    let player2Type = player2["playerType"] as! String
-                            
-                                    let player3 = players[2] as! NSDictionary
-                                    let player3Obj = player3["player"] as! NSDictionary
-                                    let player3Name = player3Obj["fullName"] as! String
-                                    let player3Type = player3["playerType"] as! String
-                            
-                            
-                                    print(player1Type + ": " + player1Name)
-                                    print(player2Type + ": " + player2Name)
-                                    print(player3Type + ": " + player3Name)
-                                    
-                                    self.lastPlayStr += "\(player1Type): \(player1Name) "
-                                    self.lastPlayStr += "\(player2Type): \(player2Name) "
-                                    self.lastPlayStr += "\(player3Type): \(player3Name)"
-                                }else if(players.count == 2){
-                                    let player1 = players[0] as! NSDictionary
-                                    let player1Obj = player1["player"] as! NSDictionary
-                                    let player1Name = player1Obj["fullName"] as! String
-                                    let player1Type = player1["playerType"] as! String
-                            
-                                    let player2 = players[1] as! NSDictionary
-                                    let player2Obj = player2["player"] as! NSDictionary
-                                    let player2Name = player2Obj["fullName"] as! String
-                                    let player2Type = player2["playerType"] as! String
-                            
-                            
-                                    print(player1Type + ": " + player1Name)
-                                    print(player2Type + ": " + player2Name)
-                                    
-                                    self.lastPlayStr += "\(player1Type): \(player1Name) "
-                                    self.lastPlayStr += "\(player2Type): \(player2Name)"
-                                }else if(players.count == 1){
-                                    let player1 = players[0] as! NSDictionary
-                                    let player1Obj = player1["player"] as! NSDictionary
-                                    let player1Name = player1Obj["fullName"] as! String
-                                    let player1Type = player1["playerType"] as! String
-                            
-                            
-                                    print(player1Type + ": " + player1Name)
-                                    
-                                    self.lastPlayStr += "\(player1Type): \(player1Name)"
-                                }
+                                print(xCord)
+                                print(yCord)
                             }
+                            let result = currPlay["result"] as! NSDictionary
+                            let event = result["event"] as! String
+                            let description = result["description"] as! String
+                            let periodOfPlay = about["ordinalNum"] as! String
+                            let timeOfPlay = about["periodTime"] as! String
+                            self.lastPlayStr += "\(periodOfPlay)/\(timeOfPlay) "
+                            self.lastPlayStr += "\(event): \(description) "
                             
                             print(self.lastPlayStr)
                     
