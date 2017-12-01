@@ -15,6 +15,8 @@ class TeamViewController: UIViewController {
 
     var teamId = 0
     
+    var lastPlays: [String] = []
+    
     var venueLoc: String = ""
     var firstYearOfPlay: String = ""
     var conName: String = ""
@@ -136,6 +138,10 @@ class TeamViewController: UIViewController {
                         let homeTeamId = homeTeam["id"] as! Int
                         
                         if(homeTeamId == self.teamId || awayTeamId == self.teamId){
+                            DispatchQueue.main.async {
+                                self.inGame.isHidden = false;
+                                self.inGame.text = "Game Day";
+                            }
                             self.getGameData(gameUrl: "https://statsapi.web.nhl.com\(gameUrl)")
                             inLoop = false
                         }else{
@@ -168,7 +174,7 @@ class TeamViewController: UIViewController {
                     if(abstractStatus == "Live"){
                         
                         DispatchQueue.main.async {
-                            self.inGame.isHidden = false
+                            self.inGame.text = "IN GAME";
                             self.periodNum.isHidden = false
                             self.timeInPeriod.isHidden = false
                             self.homeScore.isHidden = false
@@ -218,6 +224,8 @@ class TeamViewController: UIViewController {
                             self.lastPlayStr += "\(event): \(description) "
                             
                             print(self.lastPlayStr)
+                            self.lastPlays += [self.lastPlayStr]
+                            self.lastPlayStr = "";
                     
                             let goals = about["goals"] as! NSDictionary
                     
@@ -262,8 +270,48 @@ class TeamViewController: UIViewController {
                                 self.powerPlay.text = self.powerPlayStr
                                 self.homeSOG.text = self.homeSOGStr
                                 self.awaySOG.text = self.awaySOGStr
-                                self.lastPlay.text = self.lastPlayStr
-                                self.lastPlayStr = "";
+                                var msg = ""
+                                let count = self.lastPlays.count
+                                switch(count){
+                                    case 1:
+                                        msg = self.lastPlays[0]
+                                        self.lastPlay.text = msg
+                                        break
+                                    case 2:
+                                        msg = "\(self.lastPlays[1])\n"
+                                        msg += "\(self.lastPlays[0])\n"
+                                        self.lastPlay.text = msg
+                                        break
+                                    case 3:
+                                        msg = "\(self.lastPlays[2])\n"
+                                        msg += "\(self.lastPlays[1])\n"
+                                        msg += "\(self.lastPlays[0])\n"
+                                        self.lastPlay.text = msg
+                                        break
+                                    case 4:
+                                        msg = "\(self.lastPlays[3])\n"
+                                        msg += "\(self.lastPlays[2])\n"
+                                        msg += "\(self.lastPlays[1])\n"
+                                        msg += "\(self.lastPlays[0])\n"
+                                        self.lastPlay.text = msg
+                                        break
+                                    case 5:
+                                        msg = "\(self.lastPlays[4])\n"
+                                        msg += "\(self.lastPlays[3])\n"
+                                        msg += "\(self.lastPlays[2])\n"
+                                        msg += "\(self.lastPlays[1])\n"
+                                        msg += "\(self.lastPlays[0])\n"
+                                        self.lastPlay.text = msg
+                                        break
+                                    default:
+                                        msg = "\(self.lastPlays[count - 1])\n"
+                                        msg += "\(self.lastPlays[count - 2])\n"
+                                        msg += "\(self.lastPlays[count - 3])\n"
+                                        msg += "\(self.lastPlays[count - 4])\n"
+                                        msg += "\(self.lastPlays[count - 5])\n"
+                                        self.lastPlay.text = msg
+                                        break
+                                }
                             }
                         }
                     }
