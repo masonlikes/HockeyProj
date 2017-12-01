@@ -24,6 +24,9 @@ class TeamViewController: UIViewController {
     var timeInPeriodStr: String = ""
     var homeScoreStr: String = ""
     var awayScoreStr: String = ""
+    var powerPlayStr: String = ""
+    var homeEmptyNetStr: String = ""
+    var awayEmptyNetStr: String = ""
     var homeSOGStr: String = ""
     var awaySOGStr: String = ""
     var lastPlayStr: String = ""
@@ -39,6 +42,9 @@ class TeamViewController: UIViewController {
     @IBOutlet weak var inGame: UILabel!
     @IBOutlet weak var periodNum: UILabel!
     @IBOutlet weak var timeInPeriod: UILabel!
+    @IBOutlet weak var powerPlay: UILabel!
+    @IBOutlet weak var homeEmptyNet: UILabel!
+    @IBOutlet weak var awayEmptyNet: UILabel!
     @IBOutlet weak var homeScore: UILabel!
     @IBOutlet weak var awayScore: UILabel!
     @IBOutlet weak var homeSOG: UILabel!
@@ -63,6 +69,9 @@ class TeamViewController: UIViewController {
         self.timeInPeriod.isHidden = true
         self.homeScore.isHidden = true
         self.awayScore.isHidden = true
+        self.powerPlay.isHidden = true
+        self.homeEmptyNet.isHidden = true
+        self.awayEmptyNet.isHidden = true
         self.homeSOG.isHidden = true
         self.awaySOG.isHidden = true
         self.lastPlay.isHidden = true
@@ -228,6 +237,11 @@ class TeamViewController: UIViewController {
                             let homeSOG = homeLiveTeamStats["shotsOnGoal"] as! Int
                             let awaySOG = awayLiveTeamStats["shotsOnGoal"] as! Int
                             
+                            let homeSkaters = homeLiveTeamStats["numSkaters"] as! Int
+                            let awaySkaters = awayLiveTeamStats["numSkaters"] as! Int
+                            
+                            self.powerPlayStr = "\(homeSkaters) vs \(awaySkaters)"
+                            
                             self.homeSOGStr = "SOG: \(homeSOG)"
                             self.awaySOGStr = "SOG: \(awaySOG)"
                         
@@ -245,6 +259,7 @@ class TeamViewController: UIViewController {
                                 self.timeInPeriod.text = self.timeInPeriodStr
                                 self.homeScore.text = self.homeScoreStr
                                 self.awayScore.text = self.awayScoreStr
+                                self.powerPlay.text = self.powerPlayStr
                                 self.homeSOG.text = self.homeSOGStr
                                 self.awaySOG.text = self.awaySOGStr
                                 self.lastPlay.text = self.lastPlayStr
