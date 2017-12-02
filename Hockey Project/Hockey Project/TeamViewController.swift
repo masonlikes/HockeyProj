@@ -15,6 +15,8 @@ class TeamViewController: UIViewController {
 
     var teamId = 0
     
+    var first: Bool = true
+    
     var lastPlays: [String] = []
     
     var venueLoc: String = ""
@@ -31,6 +33,7 @@ class TeamViewController: UIViewController {
     var awayEmptyNetStr: String = ""
     var homeSOGStr: String = ""
     var awaySOGStr: String = ""
+    var lastPlayStage: String = ""
     var lastPlayStr: String = ""
     
     @IBOutlet weak var teamName: UILabel!
@@ -45,8 +48,6 @@ class TeamViewController: UIViewController {
     @IBOutlet weak var periodNum: UILabel!
     @IBOutlet weak var timeInPeriod: UILabel!
     @IBOutlet weak var powerPlay: UILabel!
-    @IBOutlet weak var homeEmptyNet: UILabel!
-    @IBOutlet weak var awayEmptyNet: UILabel!
     @IBOutlet weak var homeScore: UILabel!
     @IBOutlet weak var awayScore: UILabel!
     @IBOutlet weak var homeSOG: UILabel!
@@ -60,6 +61,10 @@ class TeamViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let arr: [String] = []
+        print("###########")
+        print(arr.count)
+        print("###########")
         print(team.teamId)
         self.teamId = team.teamId
         urlString += "/\(team.teamId)"
@@ -72,8 +77,6 @@ class TeamViewController: UIViewController {
         self.homeScore.isHidden = true
         self.awayScore.isHidden = true
         self.powerPlay.isHidden = true
-        self.homeEmptyNet.isHidden = true
-        self.awayEmptyNet.isHidden = true
         self.homeSOG.isHidden = true
         self.awaySOG.isHidden = true
         self.lastPlay.isHidden = true
@@ -84,15 +87,9 @@ class TeamViewController: UIViewController {
         getGameUrl()
     }
     
-    //var gameTimer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(TeamViewController.getGameUrl), userInfo: nil, repeats: true)
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func repeatThis(){
-        
     }
     
     @objc func getGameUrl(){
@@ -138,10 +135,6 @@ class TeamViewController: UIViewController {
                         let homeTeamId = homeTeam["id"] as! Int
                         
                         if(homeTeamId == self.teamId || awayTeamId == self.teamId){
-                            DispatchQueue.main.async {
-                                self.inGame.isHidden = false;
-                                self.inGame.text = "Game Day";
-                            }
                             self.getGameData(gameUrl: "https://statsapi.web.nhl.com\(gameUrl)")
                             inLoop = false
                         }else{
@@ -153,6 +146,23 @@ class TeamViewController: UIViewController {
                 }
             }
             }.resume()
+    }
+    
+    func getPlayData(play: NSDictionary) -> String{
+        var playString: String = ""
+        
+        let about = play["about"] as! NSDictionary
+        let result = play["result"] as! NSDictionary
+        
+        let event = result["event"] as! String
+        let description = result["description"] as! String
+        let periodOfPlay = about["ordinalNum"] as! String
+        let timeOfPlay = about["periodTime"] as! String
+        
+        playString += "\(periodOfPlay)/\(timeOfPlay) "
+        playString += "\(event): \(description)\n"
+        
+        return playString
     }
     
     func getGameData(gameUrl: String){
@@ -174,13 +184,14 @@ class TeamViewController: UIViewController {
                     if(abstractStatus == "Live"){
                         
                         DispatchQueue.main.async {
-                            self.inGame.text = "IN GAME";
+                            self.inGame.isHidden = false
                             self.periodNum.isHidden = false
                             self.timeInPeriod.isHidden = false
                             self.homeScore.isHidden = false
                             self.awayScore.isHidden = false
                             self.homeSOG.isHidden = false
                             self.awaySOG.isHidden = false
+                            self.powerPlay.isHidden = false
                             self.lastPlay.isHidden = false
                         }
                     
@@ -199,119 +210,115 @@ class TeamViewController: UIViewController {
                         let liveData = parsed["liveData"] as! NSDictionary
                     
                         let plays = liveData["plays"] as! NSDictionary
-                    
-                        //TEAM NAME
-                        //TIME
-                        //EVENT: DESC
-                        //PLAYERTYPE: PLAYER
-                        if let currPlay = plays["currentPlay"] as? NSDictionary{
-                    
-                            let about = currPlay["about"] as! NSDictionary
-                            let coordinates = currPlay["coordinates"] as! NSDictionary
-                            if(!coordinates.allKeys.isEmpty){
-                                let xCord = coordinates["x"] as! Int
-                                let yCord = coordinates["y"] as! Int
                         
-                                print(xCord)
-                                print(yCord)
+                        let allPlays = plays["allPlays"] as! NSArray
+                        
+                        
+                        let playCount = allPlays.count
+                        
+                        let lastPlay = allPlays[playCount - 1] as! NSDictionary
+                        
+                        let about = lastPlay["about"] as! NSDictionary
+                    
+                        let goals = about["goals"] as! NSDictionary
+                    
+                        let homeScore = goals["home"] as! Int
+                        let awayScore = goals["away"] as! Int
+                            
+                        let lineScore = liveData["linescore"] as! NSDictionary
+                        
+                        let currentPeriod = lineScore["currentPeriodOrdinal"] as! String
+                        let timeRemaining = lineScore["currentPeriodTimeRemaining"] as! String
+                            
+                        let liveTeamStats = lineScore["teams"] as! NSDictionary
+                            
+                        let homeLiveTeamStats = liveTeamStats["home"] as! NSDictionary
+                        let awayLiveTeamStats = liveTeamStats["away"] as! NSDictionary
+                            
+                        let homeSOG = homeLiveTeamStats["shotsOnGoal"] as! Int
+                        let awaySOG = awayLiveTeamStats["shotsOnGoal"] as! Int
+                        
+                        let homeSkaters = homeLiveTeamStats["numSkaters"] as! Int
+                        let awaySkaters = awayLiveTeamStats["numSkaters"] as! Int
+                        
+                        if(homeLiveTeamStats["goaliePulled"] as! Bool){
+                            self.homeEmptyNetStr = "EMPTY NET"
+                        }
+                        
+                        if(awayLiveTeamStats["goaliePulled"] as! Bool){
+                            self.awayEmptyNetStr = "EMPTY NET"
+                        }
+                        
+                        var homePowerPlay: String = ""
+                        var awayPowerPlay: String = ""
+                        
+                        if(currentPeriod != "OT"){
+                            if(homeSkaters < 5){
+                                awayPowerPlay = "Power Play"
                             }
-                            let result = currPlay["result"] as! NSDictionary
-                            let event = result["event"] as! String
-                            let description = result["description"] as! String
-                            let periodOfPlay = about["ordinalNum"] as! String
-                            let timeOfPlay = about["periodTime"] as! String
-                            self.lastPlayStr += "\(periodOfPlay)/\(timeOfPlay) "
-                            self.lastPlayStr += "\(event): \(description) "
-                            
-                            print(self.lastPlayStr)
-                            self.lastPlays += [self.lastPlayStr]
-                            self.lastPlayStr = "";
-                    
-                            let goals = about["goals"] as! NSDictionary
-                    
-                            let homeScore = goals["home"] as! Int
-                            let awayScore = goals["away"] as! Int
-                            
-                            let lineScore = liveData["linescore"] as! NSDictionary
                         
-                            let currentPeriod = lineScore["currentPeriodOrdinal"] as! String
-                            let timeRemaining = lineScore["currentPeriodTimeRemaining"] as! String
+                            if(awaySkaters < 5){
+                                homePowerPlay = "Power Play"
+                            }
+                        }
+                        
+                        if(homeSkaters == awaySkaters){
+                            homePowerPlay = ""
+                            awayPowerPlay = ""
+                        }
+                        
+                        self.powerPlayStr = "\(self.homeEmptyNetStr) \(homePowerPlay) \(homeSkaters) vs \(awaySkaters) \(awayPowerPlay) \(self.awayEmptyNetStr)"
                             
-                            let liveTeamStats = lineScore["teams"] as! NSDictionary
-                            
-                            let homeLiveTeamStats = liveTeamStats["home"] as! NSDictionary
-                            let awayLiveTeamStats = liveTeamStats["away"] as! NSDictionary
-                            
-                            let homeSOG = homeLiveTeamStats["shotsOnGoal"] as! Int
-                            let awaySOG = awayLiveTeamStats["shotsOnGoal"] as! Int
-                            
-                            let homeSkaters = homeLiveTeamStats["numSkaters"] as! Int
-                            let awaySkaters = awayLiveTeamStats["numSkaters"] as! Int
-                            
-                            self.powerPlayStr = "\(homeSkaters) vs \(awaySkaters)"
-                            
-                            self.homeSOGStr = "SOG: \(homeSOG)"
-                            self.awaySOGStr = "SOG: \(awaySOG)"
+                        self.homeSOGStr = "SOG: \(homeSOG)"
+                        self.awaySOGStr = "SOG: \(awaySOG)"
                         
                     
-                            print("You are here")
+                        print("You are here")
                     
-                            self.homeScoreStr = homeTeamName + ": \(homeScore)"
-                            self.awayScoreStr = awayTeamName + ": \(awayScore)"
+                        self.homeScoreStr = homeTeamName + ": \(homeScore)"
+                        self.awayScoreStr = awayTeamName + ": \(awayScore)"
                     
-                            self.periodNumStr = currentPeriod
-                            self.timeInPeriodStr = timeRemaining
+                        self.periodNumStr = currentPeriod
+                        self.timeInPeriodStr = timeRemaining
                     
-                            DispatchQueue.main.async {
-                                self.periodNum.text = self.periodNumStr
-                                self.timeInPeriod.text = self.timeInPeriodStr
-                                self.homeScore.text = self.homeScoreStr
-                                self.awayScore.text = self.awayScoreStr
-                                self.powerPlay.text = self.powerPlayStr
-                                self.homeSOG.text = self.homeSOGStr
-                                self.awaySOG.text = self.awaySOGStr
-                                var msg = ""
-                                let count = self.lastPlays.count
-                                switch(count){
-                                    case 1:
-                                        msg = self.lastPlays[0]
-                                        self.lastPlay.text = msg
-                                        break
-                                    case 2:
-                                        msg = "\(self.lastPlays[1])\n"
-                                        msg += "\(self.lastPlays[0])\n"
-                                        self.lastPlay.text = msg
-                                        break
-                                    case 3:
-                                        msg = "\(self.lastPlays[2])\n"
-                                        msg += "\(self.lastPlays[1])\n"
-                                        msg += "\(self.lastPlays[0])\n"
-                                        self.lastPlay.text = msg
-                                        break
-                                    case 4:
-                                        msg = "\(self.lastPlays[3])\n"
-                                        msg += "\(self.lastPlays[2])\n"
-                                        msg += "\(self.lastPlays[1])\n"
-                                        msg += "\(self.lastPlays[0])\n"
-                                        self.lastPlay.text = msg
-                                        break
-                                    case 5:
-                                        msg = "\(self.lastPlays[4])\n"
-                                        msg += "\(self.lastPlays[3])\n"
-                                        msg += "\(self.lastPlays[2])\n"
-                                        msg += "\(self.lastPlays[1])\n"
-                                        msg += "\(self.lastPlays[0])\n"
-                                        self.lastPlay.text = msg
-                                        break
-                                    default:
-                                        msg = "\(self.lastPlays[count - 1])\n"
-                                        msg += "\(self.lastPlays[count - 2])\n"
-                                        msg += "\(self.lastPlays[count - 3])\n"
-                                        msg += "\(self.lastPlays[count - 4])\n"
-                                        msg += "\(self.lastPlays[count - 5])\n"
-                                        self.lastPlay.text = msg
-                                        break
-                                }
+                        DispatchQueue.main.async {
+                            self.periodNum.text = self.periodNumStr
+                            self.timeInPeriod.text = self.timeInPeriodStr
+                            self.homeScore.text = self.homeScoreStr
+                            self.awayScore.text = self.awayScoreStr
+                            self.powerPlay.text = self.powerPlayStr
+                            self.homeSOG.text = self.homeSOGStr
+                            self.awaySOG.text = self.awaySOGStr
+                            var msg = ""
+                            
+                            if(playCount == 0){
+                                
+                            }
+                            if(playCount == 1){
+                                msg = self.self.getPlayData(play: allPlays[0] as! NSDictionary)
+                                self.lastPlay.text = msg
+                            }else if(playCount == 2){
+                                msg = self.self.getPlayData(play: allPlays[1] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[0] as! NSDictionary)
+                                self.lastPlay.text = msg
+                            }else if(playCount == 3){
+                                msg = self.self.getPlayData(play: allPlays[2] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[1] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[0] as! NSDictionary)
+                                self.lastPlay.text = msg
+                            }else if(playCount == 4){
+                                msg = self.self.getPlayData(play: allPlays[3] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[2] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[1] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[0] as! NSDictionary)
+                                self.lastPlay.text = msg
+                            }else{
+                                msg = self.self.getPlayData(play: allPlays[playCount - 1] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[playCount - 2] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[playCount - 3] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[playCount - 4] as! NSDictionary)
+                                msg += self.self.getPlayData(play: allPlays[playCount - 5] as! NSDictionary)
+                                self.lastPlay.text = msg
                             }
                         }
                     }
