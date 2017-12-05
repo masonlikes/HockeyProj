@@ -15,7 +15,7 @@ class TeamViewController: UIViewController {
 
     var teamId = 0
     
-    var first: Bool = true
+    var gameDay: Bool = false
     
     var lastPlays: [String] = []
     
@@ -35,6 +35,8 @@ class TeamViewController: UIViewController {
     var awaySOGStr: String = ""
     var lastPlayStage: String = ""
     var lastPlayStr: String = ""
+    
+    var nextGameStr: String = ""
     
     @IBOutlet weak var teamName: UILabel!
     @IBOutlet weak var teamLogo: UIImageView!
@@ -71,7 +73,7 @@ class TeamViewController: UIViewController {
         self.teamName.text = team.teamName
         self.teamLogo.image = team.teamLogo
         
-        self.inGame.isHidden = true
+        //self.inGame.isHidden = true
         self.periodNum.isHidden = true
         self.timeInPeriod.isHidden = true
         self.homeScore.isHidden = true
@@ -85,11 +87,162 @@ class TeamViewController: UIViewController {
         
         getTeamData(teamUrl: urlString)
         getGameUrl()
+        getNextGame()
+        gameToday()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func gameToday(){
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        
+        print(year)
+        print(month)
+        print(day)
+        let url = URL(string: "https://statsapi.web.nhl.com/api/v1/schedule?startDate=\(year)-\(month)-\(day)&endDate=\(year)-\(month)-\(day)")
+        URLSession.shared.dataTask(with:url!) { (data, response, error) in
+            if error != nil {
+                print(error as Any)
+            } else {
+                do {
+                    
+                    let parsedData = try JSONSerialization.jsonObject(with: data!) as! NSDictionary
+                    //let dates = parsedData.value(forKey: "dates") as! NSDictionary
+                    let dates = (parsedData["dates"]! as! NSArray).mutableCopy() as! NSMutableArray
+                    
+                    let dateObj = dates[0] as! NSDictionary
+                    let games = dateObj["games"] as! NSArray
+                    var inLoop = true
+                    var index = 0
+                    while(inLoop){
+                        if(index == games.count){
+                            break;
+                        }
+                        let game = games[index] as! NSDictionary
+                        let teams = game["teams"] as! NSDictionary
+                        
+                        let away = teams["away"] as! NSDictionary
+                        let awayTeam = away["team"] as! NSDictionary
+                        let awayTeamId = awayTeam["id"] as! Int
+                        
+                        let home = teams["home"] as! NSDictionary
+                        let homeTeam = home["team"] as! NSDictionary
+                        let homeTeamId = homeTeam["id"] as! Int
+                        
+                        if(homeTeamId == self.teamId || awayTeamId == self.teamId){
+                            print("here")
+                            DispatchQueue.main.async {
+                                self.inGame.text = "GAME DAY"
+                                self.inGame.textAlignment = NSTextAlignment.center
+                            }
+                            self.gameDay = true
+                            inLoop = false
+                        }else{
+                            index += 1;
+                        }
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+        }.resume()
+    }
+    
+    func getNextGame(){
+        let date = Date()
+        let calendar = Calendar.current
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date)
+        
+        let year = calendar.component(.year, from: tomorrow!)
+        let month = calendar.component(.month, from: tomorrow!)
+        let day = calendar.component(.day, from: tomorrow!)
+        
+        print(year)
+        print(month)
+        print(day)
+        let url = URL(string: "https://statsapi.web.nhl.com/api/v1/schedule?startDate=\(year)-\(month)-\(day)&endDate=\(year+1)-\(month)-\(day)")
+        URLSession.shared.dataTask(with:url!) { (data, response, error) in
+            if error != nil {
+                print(error as Any)
+            } else {
+                do {
+                    let parsedData = try JSONSerialization.jsonObject(with: data!) as! NSDictionary
+                    let dates = (parsedData["dates"]! as! NSArray).mutableCopy() as! NSMutableArray
+                    
+                    var dateIndex = 0
+                    var gameFound = false
+                    while(!gameFound){
+                        if(dateIndex == dates.count){
+                            break;
+                        }
+                        let dateObj = dates[dateIndex] as! NSDictionary
+                        let dateStr = dateObj["date"] as! String
+                        
+                        let games = (dateObj["games"]! as! NSArray).mutableCopy() as! NSMutableArray
+                        var gameIndex = 0
+                        while(!gameFound){
+                            if(gameIndex == games.count){
+                                break;
+                            }
+                            let game = games[gameIndex] as! NSDictionary
+                            
+                            let teams = game["teams"] as! NSDictionary
+                            
+                            let homeTeamObj = teams["home"] as! NSDictionary
+                            let homeTeam = homeTeamObj["team"] as! NSDictionary
+                            let homeTeamId = homeTeam["id"] as! Int
+                            
+                            let awayTeamObj = teams["away"] as! NSDictionary
+                            let awayTeam = awayTeamObj["team"] as! NSDictionary
+                            let awayTeamId = awayTeam["id"] as! Int
+                            
+                            if(self.teamId == homeTeamId || self.teamId == awayTeamId){
+                                let yStart = dateStr.index(dateStr.startIndex, offsetBy: 0)
+                                let yEnd = dateStr.index(dateStr.endIndex, offsetBy: -6)
+                                let yResult = dateStr[yStart..<yEnd]
+                                
+                                let yearStr = String(yResult)
+                                
+                                let mStart = dateStr.index(dateStr.startIndex, offsetBy: 5)
+                                let mEnd = dateStr.index(dateStr.endIndex, offsetBy: -3)
+                                let mResult = dateStr[mStart..<mEnd]
+                                
+                                let monthStr = String(mResult)
+                                
+                                let dStart = dateStr.index(dateStr.startIndex, offsetBy: 9)
+                                let dEnd = dateStr.index(dateStr.endIndex, offsetBy: 0)
+                                let dResult = dateStr[dStart..<dEnd]
+                                
+                                let dayStr = String(dResult)
+                                
+                                self.nextGameStr = "Next Game: \(monthStr)/\(dayStr)/\(yearStr)"
+                                gameFound = true
+                            }else{
+                                gameIndex += 1
+                            }
+                        }
+                        dateIndex += 1
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+                print(self.nextGameStr)
+                if(!self.gameDay){
+                    DispatchQueue.main.async {
+                        self.inGame.text = self.nextGameStr
+                        self.inGame.textAlignment = NSTextAlignment.left
+                    }
+                }
+            }
+        }.resume()
     }
     
     @objc func getGameUrl(){
@@ -184,7 +337,8 @@ class TeamViewController: UIViewController {
                     if(abstractStatus == "Live"){
                         
                         DispatchQueue.main.async {
-                            self.inGame.isHidden = false
+                            self.inGame.text = "IN GAME"
+                            self.inGame.textAlignment = NSTextAlignment.center
                             self.periodNum.isHidden = false
                             self.timeInPeriod.isHidden = false
                             self.homeScore.isHidden = false
