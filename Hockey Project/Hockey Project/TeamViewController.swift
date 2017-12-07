@@ -17,6 +17,8 @@ class TeamViewController: UIViewController {
     
     var gameDay: Bool = false
     
+    var playHistorys: String = ""
+    
     var lastPlays: [String] = []
     
     var venueLoc: String = ""
@@ -54,7 +56,9 @@ class TeamViewController: UIViewController {
     @IBOutlet weak var awayScore: UILabel!
     @IBOutlet weak var homeSOG: UILabel!
     @IBOutlet weak var awaySOG: UILabel!
-    @IBOutlet weak var lastPlay: UILabel!
+    //@IBOutlet weak var lastPlay: UILabel!
+    //@IBOutlet weak var playTable: UITableView!
+    @IBOutlet weak var playHistory: UITextView!
     
     var team: Team = Team(teamName: "", teamLogo: UIImage(named:"KINGS"), teamId: 0);
     
@@ -81,14 +85,27 @@ class TeamViewController: UIViewController {
         self.powerPlay.isHidden = true
         self.homeSOG.isHidden = true
         self.awaySOG.isHidden = true
-        self.lastPlay.isHidden = true
+        self.playHistory.isHidden = true
+        self.playHistory.isEditable = false
+        //self.lastPlay.isHidden = true
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(getGameUrl), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(getGameUrl), userInfo: nil, repeats: true)
         
         getTeamData(teamUrl: urlString)
         getGameUrl()
         getNextGame()
         gameToday()
+        
+        var str = "This is a line 0\n"
+        
+        var i = 1
+        while(i <= 10){
+            str += "This is a line \(i)\n"
+            i += 1
+        }
+        self.playHistory.text = str
+        //self.playTable.dataSource = lastPlays as? UITableViewDataSource
+        //self.lastPlay.text = str
     }
     
     override func didReceiveMemoryWarning() {
@@ -346,7 +363,8 @@ class TeamViewController: UIViewController {
                             self.homeSOG.isHidden = false
                             self.awaySOG.isHidden = false
                             self.powerPlay.isHidden = false
-                            self.lastPlay.isHidden = false
+                            self.playHistory.isHidden = false
+                            //self.lastPlay.isHidden = false
                         }
                     
                         let teams = gameData["teams"] as! NSDictionary
@@ -445,35 +463,34 @@ class TeamViewController: UIViewController {
                             self.awaySOG.text = self.awaySOGStr
                             var msg = ""
                             
-                            if(playCount == 0){
+                            var index = playCount - 1;
+                            
+                            while(index > 0){
+                                if(index < playCount && index > 0){
+                                    msg += "\(self.self.getPlayData(play: allPlays[index] as! NSDictionary))\n"
+                                }
+                                index -= 1
+                            }
+                            
+                            self.playHistory.text = msg
+                            
+                            /*if(playCount == 0){
                                 
                             }
                             if(playCount == 1){
                                 msg = self.self.getPlayData(play: allPlays[0] as! NSDictionary)
-                                self.lastPlay.text = msg
-                            }else if(playCount == 2){
-                                msg = self.self.getPlayData(play: allPlays[1] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[0] as! NSDictionary)
-                                self.lastPlay.text = msg
-                            }else if(playCount == 3){
-                                msg = self.self.getPlayData(play: allPlays[2] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[1] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[0] as! NSDictionary)
-                                self.lastPlay.text = msg
-                            }else if(playCount == 4){
-                                msg = self.self.getPlayData(play: allPlays[3] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[2] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[1] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[0] as! NSDictionary)
-                                self.lastPlay.text = msg
+                                self.lastPlayStage = msg
+                                self.playHistorys += "\(msg)\n"
+                                //self.lastPlay.text = msg
                             }else{
                                 msg = self.self.getPlayData(play: allPlays[playCount - 1] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[playCount - 2] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[playCount - 3] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[playCount - 4] as! NSDictionary)
-                                msg += self.self.getPlayData(play: allPlays[playCount - 5] as! NSDictionary)
-                                self.lastPlay.text = msg
+                                if(self.lastPlayStage != msg){
+                                    self.playHistorys += "\(msg)\n"
+                                    print(self.playHistorys)
+                                }
+                                //self.lastPlay.text = msg
                             }
+                            self.playHistory.text = self.playHistorys */
                         }
                     }
                 } catch let error as NSError {

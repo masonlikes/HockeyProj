@@ -167,13 +167,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Last Play" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMw-h8-uRU">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Play History" translatesAutoresizingMaskIntoConstraints="NO" id="9fu-kl-Xac">
                                 <rect key="frame" x="16" y="438" width="343" height="209"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="pVK-i1-LQJ"/>
@@ -185,8 +185,8 @@
                         <outlet property="homeSOG" destination="KMR-du-Xp5" id="MLR-pJ-6GE"/>
                         <outlet property="homeScore" destination="0yo-bu-9Q5" id="pVZ-dO-bzh"/>
                         <outlet property="inGame" destination="XGM-99-xhj" id="JJ0-uQ-cO8"/>
-                        <outlet property="lastPlay" destination="CMw-h8-uRU" id="DMN-5j-XaO"/>
                         <outlet property="periodNum" destination="ph6-aR-WYL" id="J4D-yb-cIG"/>
+                        <outlet property="playHistory" destination="9fu-kl-Xac" id="cfP-gS-Msn"/>
                         <outlet property="powerPlay" destination="G7N-be-cnl" id="6fS-Be-rrP"/>
                         <outlet property="teamConference" destination="VX1-jO-CWw" id="Vi4-WW-hQf"/>
                         <outlet property="teamDivision" destination="EUG-IM-vbl" id="euS-et-M2n"/>
@@ -198,7 +198,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hXX-uD-W7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="885.60000000000002" y="-297.30134932533736"/>
+            <point key="canvasLocation" x="885.5" y="-297.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Qbh-fJ-Iog">
