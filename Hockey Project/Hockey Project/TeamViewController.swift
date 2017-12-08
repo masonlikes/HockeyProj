@@ -78,6 +78,7 @@ class TeamViewController: UIViewController {
         self.teamLogo.image = team.teamLogo
         
         //self.inGame.isHidden = true
+        self.inGame.adjustsFontSizeToFitWidth = true
         self.periodNum.isHidden = true
         self.timeInPeriod.isHidden = true
         self.homeScore.isHidden = true
@@ -149,19 +150,29 @@ class TeamViewController: UIViewController {
                         let away = teams["away"] as! NSDictionary
                         let awayTeam = away["team"] as! NSDictionary
                         let awayTeamId = awayTeam["id"] as! Int
+                        let awayTeamName = awayTeam["name"] as! String
                         
                         let home = teams["home"] as! NSDictionary
                         let homeTeam = home["team"] as! NSDictionary
                         let homeTeamId = homeTeam["id"] as! Int
+                        let homeTeamName = homeTeam["name"] as! String
+                        var littleStr = ""
                         
-                        if(homeTeamId == self.teamId || awayTeamId == self.teamId){
-                            print("here")
-                            DispatchQueue.main.async {
-                                self.inGame.text = "GAME DAY"
-                                self.inGame.textAlignment = NSTextAlignment.center
-                            }
+                        if(self.teamId == homeTeamId){
+                            littleStr = "Game Today Vs the \(awayTeamName)"
                             self.gameDay = true
                             inLoop = false
+                        }else if(self.teamId == awayTeamId){
+                            littleStr = "Game Today @ the \(homeTeamName)"
+                            self.gameDay = true
+                            inLoop = false
+                        }
+                        
+                        if(self.gameDay){
+                            DispatchQueue.main.async {
+                                self.inGame.text = littleStr
+                                self.inGame.textAlignment = NSTextAlignment.center
+                            }
                         }else{
                             index += 1;
                         }
@@ -216,12 +227,15 @@ class TeamViewController: UIViewController {
                             let homeTeamObj = teams["home"] as! NSDictionary
                             let homeTeam = homeTeamObj["team"] as! NSDictionary
                             let homeTeamId = homeTeam["id"] as! Int
+                            let homeTeamName = homeTeam["name"] as! String
                             
                             let awayTeamObj = teams["away"] as! NSDictionary
                             let awayTeam = awayTeamObj["team"] as! NSDictionary
                             let awayTeamId = awayTeam["id"] as! Int
+                            let awayTeamName = awayTeam["name"] as! String
                             
                             if(self.teamId == homeTeamId || self.teamId == awayTeamId){
+                                var littleStr = ""
                                 let yStart = dateStr.index(dateStr.startIndex, offsetBy: 0)
                                 let yEnd = dateStr.index(dateStr.endIndex, offsetBy: -6)
                                 let yResult = dateStr[yStart..<yEnd]
@@ -240,7 +254,13 @@ class TeamViewController: UIViewController {
                                 
                                 let dayStr = String(dResult)
                                 
-                                self.nextGameStr = "Next Game: \(monthStr)/\(dayStr)/\(yearStr)"
+                                if(self.teamId == homeTeamId){
+                                    littleStr = "Vs the \(awayTeamName)"
+                                }else{
+                                    littleStr = "@ the \(homeTeamName)"
+                                }
+                                
+                                self.nextGameStr = "Next Game: \(monthStr)/\(dayStr)/\(yearStr) \(littleStr)"
                                 gameFound = true
                             }else{
                                 gameIndex += 1
