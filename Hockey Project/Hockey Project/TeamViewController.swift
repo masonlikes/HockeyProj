@@ -9,6 +9,15 @@ import UIKit
 
 class TeamViewController: UIViewController {
     
+    //Roster
+    
+    //past game stats
+    //SOG by P
+    //GOALS by P
+    //3 stars
+    //All those stats
+    
+    
     var urlString = "https://statsapi.web.nhl.com/api/v1/teams";
     
     var gameUrlString = ""
@@ -40,6 +49,8 @@ class TeamViewController: UIViewController {
     
     var nextGameStr: String = ""
     
+    var lastGameStatsStr: String = ""
+    
     @IBOutlet weak var teamName: UILabel!
     @IBOutlet weak var teamLogo: UIImageView!
     
@@ -59,6 +70,10 @@ class TeamViewController: UIViewController {
     //@IBOutlet weak var lastPlay: UILabel!
     //@IBOutlet weak var playTable: UITableView!
     @IBOutlet weak var playHistory: UITextView!
+    
+    @IBOutlet weak var lastGameHeader: UILabel!
+    @IBOutlet weak var lastGameStats: UITextView!
+    
     
     var team: Team = Team(teamName: "", teamLogo: UIImage(named:"KINGS"), teamId: 0);
     
@@ -88,10 +103,11 @@ class TeamViewController: UIViewController {
         self.awaySOG.isHidden = true
         self.playHistory.isHidden = true
         self.playHistory.isEditable = false
+        self.lastGameStats.isEditable = false
         //self.lastPlay.isHidden = true
         
         gameTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(getGameUrl), userInfo: nil, repeats: true)
-        
+        getLastGameStats()
         getTeamData(teamUrl: urlString)
         getGameUrl()
         getNextGame()
@@ -112,6 +128,141 @@ class TeamViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getLastGameStats(){
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        
+        print("%%%%%%%%%%%%%%%")
+        print(year)
+        print(month)
+        print(day)
+        print("%%%%%%%%%%%%%%%")
+        let url = URL(string: "https://statsapi.web.nhl.com/api/v1/schedule?startDate=\(year-1)-\(month)-\(day)&endDate=\(year)-\(month)-\(day)")
+        URLSession.shared.dataTask(with:url!) { (data, response, error) in
+            if error != nil {
+                print(error as Any)
+            } else {
+                do {
+                    let parsedData = try JSONSerialization.jsonObject(with: data!) as! NSDictionary
+                    let dates = (parsedData["dates"]! as! NSArray).mutableCopy() as! NSMutableArray
+                    
+                    var dateIndex = dates.count - 1
+                    var gameFound = false
+                    while(!gameFound){
+                        if(dateIndex < 0){
+                            break;
+                        }
+                        let dateObj = dates[dateIndex] as! NSDictionary
+                        
+                        let games = (dateObj["games"]! as! NSArray).mutableCopy() as! NSMutableArray
+                        var gameIndex = 0
+                        while(!gameFound){
+                            if(gameIndex == games.count){
+                                break;
+                            }
+                            let game = games[gameIndex] as! NSDictionary
+                            
+                            let teams = game["teams"] as! NSDictionary
+                            
+                            let homeTeamObj = teams["home"] as! NSDictionary
+                            let homeTeam = homeTeamObj["team"] as! NSDictionary
+                            let homeTeamId = homeTeam["id"] as! Int
+                            
+                            let awayTeamObj = teams["away"] as! NSDictionary
+                            let awayTeam = awayTeamObj["team"] as! NSDictionary
+                            let awayTeamId = awayTeam["id"] as! Int
+                            
+                            if(self.teamId == homeTeamId || self.teamId == awayTeamId){
+                                let link = game["link"] as! String
+                                self.setLastGameStats(gameURL: "https://statsapi.web.nhl.com\(link)")
+                                gameFound = true
+                            }else{
+                                gameIndex += 1
+                            }
+                        }
+                        dateIndex -= 1
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+            }.resume()
+    }
+    
+    func setLastGameStats(gameURL: String){
+        let url = URL(string: gameURL)
+        URLSession.shared.dataTask(with:url!) { (data, response, error) in
+            if error != nil {
+                print(error as Any)
+            } else {
+                do {
+                    let parsedData = try JSONSerialization.jsonObject(with: data!) as! NSDictionary
+                    //let dates = parsedData.value(forKey: "dates") as! NSDictionary
+                    let liveData = parsedData["liveData"] as! NSDictionary
+                    
+                    let boxScore = liveData["boxscore"] as! NSDictionary
+                    let teams = boxScore["teams"] as! NSDictionary
+                    
+                    let homeTeam = teams["home"] as! NSDictionary
+                    let homeTeamData = homeTeam["team"] as! NSDictionary
+                    let homeTeamName = homeTeamData["name"] as! String
+                    
+                    let homeTeamStats = homeTeam["teamStats"] as! NSDictionary
+                    let homeTeamSkaterStats = homeTeamStats["teamSkaterStats"] as! NSDictionary
+                    
+                    let homeGameGoals = homeTeamSkaterStats["goals"] as! Int
+                    let homeGamePIM = homeTeamSkaterStats["pim"] as! Int
+                    let homeGameSOG = homeTeamSkaterStats["shots"] as! Int
+                    let homeGamePPG = homeTeamSkaterStats["powerPlayGoals"] as! Int
+                    let homeGamePPO = homeTeamSkaterStats["powerPlayOpportunities"] as! Int
+                    let homeGameFOW = homeTeamSkaterStats["faceOffWinPercentage"] as! String
+                    let homeGameBlocked = homeTeamSkaterStats["blocked"] as! Int
+                    let homeGameTakeAways = homeTeamSkaterStats["takeaways"] as! Int
+                    let homeGameGiveAways = homeTeamSkaterStats["giveaways"] as! Int
+                    let homeGameHits = homeTeamSkaterStats["hits"] as! Int
+                    
+                    let awayTeam = teams["away"] as! NSDictionary
+                    let awayTeamData = awayTeam["team"] as! NSDictionary
+                    let awayTeamName = awayTeamData["name"] as! String
+                    
+                    let awayTeamStats = awayTeam["teamStats"] as! NSDictionary
+                    let awayTeamSkaterStats = awayTeamStats["teamSkaterStats"] as! NSDictionary
+                    
+                    let awayGameGoals = awayTeamSkaterStats["goals"] as! Int
+                    let awayGamePIM = awayTeamSkaterStats["pim"] as! Int
+                    let awayGameSOG = awayTeamSkaterStats["shots"] as! Int
+                    let awayGamePPG = awayTeamSkaterStats["powerPlayGoals"] as! Int
+                    let awayGamePPO = awayTeamSkaterStats["powerPlayOpportunities"] as! Int
+                    let awayGameFOW = awayTeamSkaterStats["faceOffWinPercentage"] as! String
+                    let awayGameBlocked = awayTeamSkaterStats["blocked"] as! Int
+                    let awayGameTakeAways = awayTeamSkaterStats["takeaways"] as! Int
+                    let awayGameGiveAways = awayTeamSkaterStats["giveaways"] as! Int
+                    let awayGameHits = awayTeamSkaterStats["hits"] as! Int
+                    
+                    self.lastGameStatsStr = "\(awayTeamName) @ \(homeTeamName)\n\n"
+                    self.lastGameStatsStr += "\(awayGameGoals)    Goals    \(homeGameGoals)\n\n"
+                    self.lastGameStatsStr += "\(awayGameSOG)    Shots    \(homeGameSOG)\n\n"
+                    self.lastGameStatsStr += "\(awayGamePIM)    Penalty Minutes    \(homeGamePIM)\n\n"
+                    self.lastGameStatsStr += "\(awayGamePPG)/\(awayGamePPO)    Power Play    \(homeGamePPG)/\(homeGamePPO)\n\n"
+                    self.lastGameStatsStr += "\(awayGameFOW)%    FaceOff Win    \(homeGameFOW)%\n\n"
+                    self.lastGameStatsStr += "\(awayGameBlocked)    Blocked Shots    \(homeGameBlocked)\n\n"
+                    self.lastGameStatsStr += "\(awayGameTakeAways)    Take Aways    \(homeGameTakeAways)\n\n"
+                    self.lastGameStatsStr += "\(awayGameGiveAways)    Give Aways    \(homeGameGiveAways)\n\n"
+                    self.lastGameStatsStr += "\(awayGameHits)    Hits    \(homeGameHits)\n\n"
+                    DispatchQueue.main.async {
+                        self.lastGameStats.text = self.lastGameStatsStr
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+        }.resume()
     }
     
     func gameToday(){
@@ -171,7 +322,6 @@ class TeamViewController: UIViewController {
                         if(self.gameDay){
                             DispatchQueue.main.async {
                                 self.inGame.text = littleStr
-                                self.inGame.textAlignment = NSTextAlignment.center
                             }
                         }else{
                             index += 1;
@@ -248,11 +398,15 @@ class TeamViewController: UIViewController {
                                 
                                 let monthStr = String(mResult)
                                 
-                                let dStart = dateStr.index(dateStr.startIndex, offsetBy: 9)
+                                let dStart = dateStr.index(dateStr.startIndex, offsetBy: 8)
                                 let dEnd = dateStr.index(dateStr.endIndex, offsetBy: 0)
                                 let dResult = dateStr[dStart..<dEnd]
                                 
                                 let dayStr = String(dResult)
+                                
+                                print("!!!!!!!!!!!!!!!!!")
+                                print(dayStr)
+                                print("!!!!!!!!!!!!!!!!!")
                                 
                                 if(self.teamId == homeTeamId){
                                     littleStr = "Vs the \(awayTeamName)"
@@ -384,6 +538,8 @@ class TeamViewController: UIViewController {
                             self.awaySOG.isHidden = false
                             self.powerPlay.isHidden = false
                             self.playHistory.isHidden = false
+                            self.lastGameHeader.isHidden = true
+                            self.lastGameStats.isHidden = true
                             //self.lastPlay.isHidden = false
                         }
                     
