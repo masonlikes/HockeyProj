@@ -168,6 +168,10 @@ class TeamViewController: UIViewController {
                             }
                             let game = games[gameIndex] as! NSDictionary
                             
+                            let status = game["status"] as! NSDictionary
+                            let abstractStatus = status["abstractGameState"] as! String
+                            let preGame = (abstractStatus == "Preview")
+                            
                             let teams = game["teams"] as! NSDictionary
                             
                             let homeTeamObj = teams["home"] as! NSDictionary
@@ -178,7 +182,7 @@ class TeamViewController: UIViewController {
                             let awayTeam = awayTeamObj["team"] as! NSDictionary
                             let awayTeamId = awayTeam["id"] as! Int
                             
-                            if(self.teamId == homeTeamId || self.teamId == awayTeamId){
+                            if(!preGame && (self.teamId == homeTeamId || self.teamId == awayTeamId)){
                                 let link = game["link"] as! String
                                 self.setLastGameStats(gameURL: "https://statsapi.web.nhl.com\(link)")
                                 gameFound = true
