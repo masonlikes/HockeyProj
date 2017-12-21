@@ -110,8 +110,9 @@ class TeamViewController: UIViewController {
         getLastGameStats()
         getTeamData(teamUrl: urlString)
         getGameUrl()
-        getNextGame()
         gameToday()
+        getNextGame()
+    
         
         var str = "This is a line 0\n"
         
@@ -300,6 +301,9 @@ class TeamViewController: UIViewController {
                             break;
                         }
                         let game = games[index] as! NSDictionary
+                        
+                        let status = game["status"] as! NSDictionary
+                        let abstractStatus = status["abstractGameState"] as! String
                         let teams = game["teams"] as! NSDictionary
                         
                         let away = teams["away"] as! NSDictionary
@@ -321,6 +325,10 @@ class TeamViewController: UIViewController {
                             littleStr = "Game Today @ the \(homeTeamName)"
                             self.gameDay = true
                             inLoop = false
+                        }
+                        
+                        if(abstractStatus == "Final"){
+                            self.gameDay = false
                         }
                         
                         if(self.gameDay){
@@ -388,7 +396,7 @@ class TeamViewController: UIViewController {
                             let awayTeamId = awayTeam["id"] as! Int
                             let awayTeamName = awayTeam["name"] as! String
                             
-                            if(self.teamId == homeTeamId || self.teamId == awayTeamId){
+                            if(!self.gameDay && (self.teamId == homeTeamId || self.teamId == awayTeamId)){
                                 var littleStr = ""
                                 let yStart = dateStr.index(dateStr.startIndex, offsetBy: 0)
                                 let yEnd = dateStr.index(dateStr.endIndex, offsetBy: -6)
@@ -419,6 +427,11 @@ class TeamViewController: UIViewController {
                                 }
                                 
                                 self.nextGameStr = "Next Game: \(monthStr)/\(dayStr)/\(yearStr) \(littleStr)"
+                                print(self.nextGameStr)
+                                DispatchQueue.main.async {
+                                    self.inGame.text = self.nextGameStr
+                                    self.inGame.textAlignment = NSTextAlignment.left
+                                }
                                 gameFound = true
                             }else{
                                 gameIndex += 1
@@ -428,13 +441,6 @@ class TeamViewController: UIViewController {
                     }
                 } catch let error as NSError {
                     print(error)
-                }
-                print(self.nextGameStr)
-                if(!self.gameDay){
-                    DispatchQueue.main.async {
-                        self.inGame.text = self.nextGameStr
-                        self.inGame.textAlignment = NSTextAlignment.left
-                    }
                 }
             }
         }.resume()
